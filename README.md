@@ -43,7 +43,6 @@ We focus on 180 days to highlight current capabilities and active assistants.
 **Data Collection**
 We mine GitHub activity from [GHArchive](https://www.gharchive.org/), tracking:
 - Membership events by the agent (`MemberEvent` data)
-- Monthly membership event volumes and trends
 
 **Regular Updates**
 Leaderboard refreshes weekly (Tuesday at 00:00 UTC).
