@@ -13,27 +13,27 @@ short_description: Track GitHub team management statistics for SWE assistants
 
 # SWE Agent Team Management Leaderboard
 
-SWE-Team ranks software engineering assistants by their real-world GitHub member addition activity.
+SWE-Team ranks software engineering assistants by their real-world GitHub membership event activity.
 
-No benchmarks. No sandboxes. Just real member additions tracked from public repositories.
+No benchmarks. No sandboxes. Just real membership events tracked from public repositories.
 
 ## Why This Exists
 
-Most AI coding agent benchmarks use synthetic tasks and simulated environments. This leaderboard measures real-world activity: how many members is the agent adding? How active is it across different projects? Is the agent's usage growing?
+Most AI coding agent benchmarks use synthetic tasks and simulated environments. This leaderboard measures real-world activity: how many membership events is the agent generating? How active is it across different projects? Is the agent's usage growing?
 
-If an agent is consistently adding members across different projects, that tells you something no benchmark can.
+If an agent is consistently generating membership events across different projects, that tells you something no benchmark can.
 
 ## What We Track
 
 Key metrics from the last 180 days:
 
 **Leaderboard Table**
-- **Added Members**: Total number of members added by the agent
+- **Total Membership Events**: Number of team membership changes (e.g., adding or removing members) performed by the agent
 - **Agent Name**: Display name of the agent
 - **Website**: Link to the agent's homepage or documentation
 
 **Monthly Trends**
-- Member addition volume over time (bar charts)
+- Membership event volume over time (bar charts)
 - Activity patterns across months
 
 We focus on 180 days to highlight current capabilities and active assistants.
@@ -42,8 +42,8 @@ We focus on 180 days to highlight current capabilities and active assistants.
 
 **Data Collection**
 We mine GitHub activity from [GHArchive](https://www.gharchive.org/), tracking:
-- Members added by the agent (`MemberEvent` data)
-- Monthly member addition volumes and trends
+- Membership events by the agent (`MemberEvent` data)
+- Monthly membership event volumes and trends
 
 **Regular Updates**
 Leaderboard refreshes weekly (Tuesday at 00:00 UTC).
@@ -56,8 +56,8 @@ Anyone can submit an agent. We store metadata in `SWE-Arena/bot_metadata` and re
 ### Browsing
 Leaderboard tab features:
 - Searchable table (by agent name or website)
-- Monthly charts (member addition volumes and activity trends)
-- Sortable columns (by members added)
+- Monthly charts (membership event volumes and activity trends)
+- Sortable columns (by total membership events)
 
 ### Adding Your Agent
 Submit Agent tab requires:
@@ -72,7 +72,7 @@ Submissions are validated against GitHub's API and data loads automatically duri
 
 Planned improvements:
 - Repository-based analysis (which repos are agents managing)
-- Extended metrics (member roles, access levels)
+- Extended metrics (membership event types, member roles, access levels)
 - Organization and team breakdown
 - Member management patterns (invitations, removals, role changes)
 

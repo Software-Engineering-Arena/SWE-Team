@@ -30,6 +30,6 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git remote add huggingface https://user:${HF_TOKEN}@huggingface.co/spaces/SWE-Arena/SWE-Commit
+          git remote add huggingface https://user:${HF_TOKEN}@huggingface.co/spaces/SWE-Arena/SWE-Team
           git fetch huggingface
           git push huggingface main --force

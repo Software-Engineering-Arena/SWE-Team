@@ -29,7 +29,7 @@ MAX_RETRIES = 5
 LEADERBOARD_COLUMNS = [
     ("Agent Name", "string"),
     ("Website", "string"),
-    ("Added Members", "number"),
+    ("Total Membership Events", "number"),
 ]
 
 # =============================================================================
@@ -268,7 +268,7 @@ def load_leaderboard_data_from_hf():
 
 def create_monthly_metrics_plot(top_n=5):
     """
-    Create a Plotly figure showing monthly members added as bar charts.
+    Create a Plotly figure showing monthly total membership events as bar charts.
 
     Args:
         top_n: Number of top agents to show (default: 5)
@@ -297,14 +297,14 @@ def create_monthly_metrics_plot(top_n=5):
 
     # Apply top_n filter if specified
     if top_n is not None and top_n > 0 and metrics.get('agents'):
-        # Calculate members added for each agent
+        # Calculate total membership events for each agent
         agent_totals = []
         for agent_name in metrics['agents']:
             agent_data = metrics['data'].get(agent_name, {})
-            members_added = sum(agent_data.get('total_members', []))
-            agent_totals.append((agent_name, members_added))
+            total_membership_events = sum(agent_data.get('total_members', []))
+            agent_totals.append((agent_name, total_membership_events))
 
-        # Sort by members added and take top N
+        # Sort by total membership events and take top N
         agent_totals.sort(key=lambda x: x[1], reverse=True)
         top_agents = [agent_name for agent_name, _ in agent_totals[:top_n]]
 
@@ -372,7 +372,7 @@ def create_monthly_metrics_plot(top_n=5):
                     marker=dict(color=color, opacity=0.7),
                     hovertemplate='<b>Agent: %{fullData.name}</b><br>' +
                                  'Month: %{x}<br>' +
-                                 'Added Members: %{y}<br>' +
+                                 'Total Membership Events: %{y}<br>' +
                                  '<extra></extra>',
                     offsetgroup=agent_name  # Group bars by agent for proper spacing
                 )
@@ -380,7 +380,7 @@ def create_monthly_metrics_plot(top_n=5):
 
     # Update axes labels
     fig.update_xaxes(title_text=None)
-    fig.update_yaxes(title_text="<b>Added Members</b>")
+    fig.update_yaxes(title_text="<b>Total Membership Events</b>")
 
     # Update layout
     show_legend = (top_n is not None and top_n <= 10)
@@ -399,7 +399,7 @@ def create_monthly_metrics_plot(top_n=5):
 def get_leaderboard_dataframe():
     """
     Load leaderboard from saved dataset and convert to pandas DataFrame for display.
-    Returns formatted DataFrame sorted by members added.
+    Returns formatted DataFrame sorted by total membership events.
     """
     # Load from saved dataset
     saved_data = load_leaderboard_data_from_hf()
@@ -424,11 +424,11 @@ def get_leaderboard_dataframe():
     rows = []
     filtered_count = 0
     for identifier, data in cache_dict.items():
-        members_added = data.get('total_members', 0)
-        print(f"   Agent '{identifier}': {members_added} members added")
+        total_membership_events = data.get('total_members', 0)
+        print(f"   Agent '{identifier}': {total_membership_events} total membership events")
 
-        # Filter out agents with zero members added
-        if members_added == 0:
+        # Filter out agents with zero membership events
+        if total_membership_events == 0:
             filtered_count += 1
             continue
 
@@ -436,10 +436,10 @@ def get_leaderboard_dataframe():
         rows.append([
             data.get('name', 'Unknown'),
             data.get('website', 'N/A'),
-            members_added,
+            total_membership_events,
         ])
 
-    print(f"Filtered out {filtered_count} agents with 0 members added")
+    print(f"Filtered out {filtered_count} agents with 0 total membership events")
     print(f"Leaderboard will show {len(rows)} agents")
 
     # Create DataFrame
@@ -447,14 +447,14 @@ def get_leaderboard_dataframe():
     df = pd.DataFrame(rows, columns=column_names)
 
     # Ensure numeric types
-    numeric_cols = ["Added Members"]
+    numeric_cols = ["Total Membership Events"]
     for col in numeric_cols:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
 
-    # Sort by Added Members descending
-    if "Added Members" in df.columns and not df.empty:
-        df = df.sort_values(by="Added Members", ascending=False).reset_index(drop=True)
+    # Sort by Total Membership Events descending
+    if "Total Membership Events" in df.columns and not df.empty:
+        df = df.sort_values(by="Total Membership Events", ascending=False).reset_index(drop=True)
 
     print(f"Final DataFrame shape: {df.shape}")
     print("="*60 + "\n")
@@ -509,7 +509,7 @@ def submit_agent(identifier, agent_name, organization, website):
         return "ERROR: Failed to save submission", gr.update()
 
     # Return success message - data will be populated by backend updates
-    return f"SUCCESS: Successfully submitted {agent_name}! Members added data will be automatically populated by the backend system via the maintainers.", gr.update()
+    return f"SUCCESS: Successfully submitted {agent_name}! Total membership events data will be automatically populated by the backend system via the maintainers.", gr.update()
 
 
 # =============================================================================
@@ -566,13 +566,13 @@ print(f"{'='*80}\n")
 # Create Gradio interface
 with gr.Blocks(title="SWE Agent Member Leaderboard", theme=gr.themes.Soft()) as app:
     gr.Markdown("# SWE Agent Member Leaderboard")
-    gr.Markdown(f"Track and compare members added to repositories by SWE agents")
+    gr.Markdown(f"Track and compare total membership events by SWE agents")
 
     with gr.Tabs():
 
         # Leaderboard Tab
         with gr.Tab("Leaderboard"):
-            gr.Markdown("*Statistics are based on members added to repositories by agents*")
+            gr.Markdown("*Statistics are based on total membership events by agents*")
             leaderboard_table = Leaderboard(
                 value=pd.DataFrame(columns=[col[0] for col in LEADERBOARD_COLUMNS]),  # Empty initially
                 datatype=LEADERBOARD_COLUMNS,
@@ -590,7 +590,7 @@ with gr.Blocks(title="SWE Agent Member Leaderboard", theme=gr.themes.Soft()) as 
             # Monthly Metrics Section
             gr.Markdown("---")  # Divider
             gr.Markdown("### Monthly Performance - Top 5 Agents")
-            gr.Markdown("*Shows members added for the most active agents*")
+            gr.Markdown("*Shows total membership events for the most active agents*")
 
             monthly_metrics_plot = gr.Plot(label="Monthly Metrics")
 

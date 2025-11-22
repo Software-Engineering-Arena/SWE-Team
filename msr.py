@@ -415,7 +415,6 @@ def fetch_all_member_metadata_streaming(conn, identifiers, start_date, end_date)
             maximum_object_size=2147483648
         )
         WHERE type = 'MemberEvent'
-            AND TRY_CAST(json_extract_string(to_json(payload), '$.action') AS VARCHAR) = 'added'
             AND TRY_CAST(json_extract_string(to_json(payload), '$.member.login') AS VARCHAR) IS NOT NULL
             AND TRY_CAST(json_extract_string(to_json(actor), '$.login') AS VARCHAR) IN ({identifier_list})
         """
