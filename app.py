@@ -589,11 +589,11 @@ with gr.Blocks(title="SWE Agent Member Leaderboard", theme=gr.themes.Soft()) as 
 
             # Monthly Metrics Section
             gr.Markdown("---")  # Divider
-            gr.Markdown("### Monthly Performance - Top 5 Agents")
-            gr.Markdown("*Shows total membership events for the most active agents*")
-
-            monthly_metrics_plot = gr.Plot(label="Monthly Metrics")
-
+            with gr.Group():
+                gr.Markdown("### Monthly Performance - Top 5 Agents")
+                gr.Markdown("*Shows total membership events for the most active agents*")
+                monthly_metrics_plot = gr.Plot(label="Monthly Metrics")
+                
             # Load monthly metrics when app starts
             app.load(
                 fn=lambda: create_monthly_metrics_plot(),
@@ -605,7 +605,6 @@ with gr.Blocks(title="SWE Agent Member Leaderboard", theme=gr.themes.Soft()) as 
         # Submit Agent Tab
         with gr.Tab("Submit Agent"):
 
-            gr.Markdown("### Submit Your Agent")
             gr.Markdown("Fill in the details below to add your agent to the leaderboard.")
 
             with gr.Row():
