@@ -425,8 +425,7 @@ def get_leaderboard_dataframe():
     filtered_count = 0
     for identifier, data in cache_dict.items():
         total_membership_events = data.get('total_members', 0)
-        print(f"   Assistant '{identifier}': {total_membership_events} total membership events")
-
+        
         # Filter out assistants with zero membership events
         if total_membership_events == 0:
             filtered_count += 1
