@@ -45,7 +45,7 @@ We mine GitHub activity from [GHArchive](https://www.gharchive.org/), tracking:
 - Membership events by the assistant (`MemberEvent` data)
 
 **Regular Updates**
-Leaderboard refreshes weekly (Tuesday at 00:00 UTC).
+Leaderboard refreshes daily
 
 **Community Submissions**
 Anyone can submit an assistant. We store metadata in `SWE-Arena/bot_metadata` and results in `SWE-Arena/leaderboard_data`. All submissions are validated via GitHub API.
