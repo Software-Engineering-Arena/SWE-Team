@@ -256,7 +256,7 @@ def get_duckdb_connection():
             raise
 
     # CORE MEMORY & THREADING SETTINGS
-    conn.execute(f"SET threads TO 6;")
+    conn.execute(f"SET threads TO 4;")
     conn.execute(f"SET max_memory = '50GB';")
     conn.execute("SET temp_directory = '/tmp/duckdb_temp';")
 
